@@ -17,14 +17,18 @@ public class Main {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         // Load the text into a Spark RDD, which is a distributed representation of each line of text
-        JavaRDD<String> textFile = sc.textFile("src/main/resources/shakespeare.txt");
-        JavaPairRDD<String, Integer> counts = textFile
-                .flatMap(s -> Arrays.asList(s.split("[ ,]")).iterator())
+        JavaRDD<String> textFile = sc.textFile("src/main/resources/auth_500000.txt");
+        /*JavaPairRDD<String, Integer> counts = textFile
+                .flatMap(s -> Arrays.asList(s.split("[,]")).iterator())
                 .mapToPair(word -> new Tuple2<>(word, 1))
                 .reduceByKey((a, b) -> a + b);
         counts.foreach(p -> System.out.println(p));
         System.out.println("Total words: " + counts.count());
-        counts.saveAsTextFile("out/shakespeareWordCount");
+        counts.saveAsTextFile("out/authCount");
+        */
+        JavaRDD<String> clean = textFile.filter(line -> !line.contains("?"));
+        clean.saveAsTextFile("out/clean");
+        System.out.println("DONE");
     }
 
 }
