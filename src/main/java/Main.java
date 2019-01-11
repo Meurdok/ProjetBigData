@@ -1,9 +1,13 @@
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.SparkConf;
 import scala.Tuple2;
+import scala.reflect.io.Directory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,9 +53,31 @@ public class Main {
         List<Tuple2<Integer, String>> top10 = reversed.sortByKey(false).take(10);
         top10.forEach(s -> System.out.println(s));
 
+        //Supprime le dossier de sortie si il existe deja
+        File file = new File("out/clean");
+        try {
+            FileUtils.deleteDirectory(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //Output dans le dossier out/clean
         taux.saveAsTextFile("out/clean");
         System.out.println("DONE");
+    }
+
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
     }
 
 }
