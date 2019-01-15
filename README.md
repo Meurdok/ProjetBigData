@@ -1,4 +1,16 @@
 # ProjetBigData
 
-Attention, les fichiers de sorti sont stockés dans le dossier <i>out</i>.
-Penser à supprimer les fichier à l'intérieur avant de lancer relancer l'application.
+##Partie I
+
+Les dix accès les plus fréquents:
+
+(3837,[C599$@DOM1-C1619])
+(3384,[C585$@DOM1-C585])
+(2929,[C1114$@DOM1-C1115])
+(2925,[C743$@DOM1-C743])
+(2725,[C104$@DOM1-C105])
+(2460,[C567$@DOM1-C574])
+(2345,[C123$@DOM1-C527])
+(2002,[C1617$@DOM1-C1618])
+(1930,[C538$@DOM1-C539])
+(1907,[U22@DOM1-C506])
