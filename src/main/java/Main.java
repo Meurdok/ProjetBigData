@@ -3,16 +3,14 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.SparkConf;
-import org.apache.spark.sql.types.StructField;
+import org.apache.spark.sql.DataFrame;
 import scala.Tuple2;
-import scala.reflect.io.Directory;
-
+import org.apache.spark.sql.SQLContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.apache.spark.sql.types.DataTypes.StringType;
 
 public class Main {
 
@@ -62,37 +60,19 @@ public class Main {
 
         //Partie II
 
-        String schemaString = "name age";
+        JavaPairRDD<String,Integer> CoS2HRDD = clean.map(s -> Arrays.asList(s.split(",")))
+                                                    .mapToPair(w -> new Tuple2<>("["+w.get(1)+"|("+w.get(4)+","+w.get(5)+")]",1))
+                                                    .reduceByKey((a,b) -> a + b);
 
-        //JavaRDD<String> fields = schemaString.split(" ").map(fieldName -> new StructField(fieldName, StringType, true, null));
 
-        //val schema = StructType(fields);
-        //5. Convert records of the RDD (people) to Rows
+        JavaRDD<LogStruct> LogRDD = clean.map(s -> Arrays.asList(s.split(",")))
+                                    .map(s -> new LogStruct(s.get(0),s.get(1),s.get(2),s.get(3),s.get(4),s.get(5),s.get(6),s.get(7),s.get(8)));
 
-        //val rowRDD = peopleRDD.map(_.split(",")).map(attributes => Row(attributes(0), attributes(1).trim))
-        //6. Apply the schema to the RDD
+        SQLContext sqlC = new SQLContext(sc);
 
-        //val peopleDF = spark.createDataFrame(rowRDD, schema)
-        //6. Creates a temporary view using the DataFrame
+        DataFrame df = sqlC.createDataFrame(LogRDD,LogStruct.class);
 
-        //peopleDF.createOrReplaceTempView("people")
-        //7. SQL can be run over a temporary view created using DataFrames
-
-        //val results = spark.sql("SELECT name FROM people")
-        //8.The results of SQL queries are DataFrames and support all the normal RDD operations. The columns of a row in the result can be accessed by field index or by field name
-
-        //results.map(attributes => "Name: " + attributes(0)).show()
-        //This will produce an output similar to the following:
-
-        /*...
-        +-------------+
-        |        value|
-        +-------------+
-        |Name: Michael|
-        |Name: Andy|
-        |Name: Justin|
-        +-------------+
-        */
+        df.show();
     }
 
 }
