@@ -4,12 +4,18 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import scala.Tuple2;
 import org.apache.spark.sql.SQLContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.spark.sql.functions.concat;
+import static org.apache.spark.sql.functions.lit;
 
 
 public class Main {
@@ -42,7 +48,7 @@ public class Main {
 
         //Affichage sur la sortie standard des 10 accès les plus fréquents
         List<Tuple2<Integer, String>> top10 = reversed.sortByKey(false).take(10);
-        top10.forEach(s -> System.out.println(s));
+        top10.forEach(s -> System.out.println(s)); // => ADD OUTPUT VERS JSON
 
         //Supprime le dossier de sortie si il existe deja
         File file = new File("out/clean");
@@ -53,7 +59,8 @@ public class Main {
         }
 
         //Output dans le dossier out/clean
-        taux.saveAsTextFile("out/clean");
+        taux.saveAsTextFile("out/clean"); // => AJOUTER SORTIE VERS JSON
+
         System.out.println("--------------");
         System.out.println("Partie I finie");
         System.out.println("--------------");
@@ -70,9 +77,23 @@ public class Main {
 
         SQLContext sqlC = new SQLContext(sc);
 
-        DataFrame df = sqlC.createDataFrame(LogRDD,LogStruct.class);
+        DataFrame df = sqlC.createDataFrame(LogRDD,LogStruct.class);// => AJOUTER SORTIE VERS JSON
 
         df.show();
+
+        DataFrame CoS2Hdf = df.select("_2_userSource","_4_pcSource","_5_pcDest");
+
+        CoS2Hdf = CoS2Hdf.withColumn("connexion", concat(CoS2Hdf.col("_4_pcSource"),lit("-"),CoS2Hdf.col("_5_pcDest")));
+
+        CoS2Hdf = CoS2Hdf.drop("_4_pcSource");
+        CoS2Hdf = CoS2Hdf.drop("_5_pcDest");
+
+        CoS2Hdf = CoS2Hdf.withColumnRenamed("_2_userSource","utilisateurs");
+
+        CoS2Hdf = CoS2Hdf.groupBy("utilisateurs", "connexion").count();
+
+        CoS2Hdf.show(); // => Ajouter sortie vers JSON
+
     }
 
 }
