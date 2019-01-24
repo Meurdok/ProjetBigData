@@ -1,26 +1,22 @@
-import org.apache.commons.io.FileUtils;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.SparkConf;
-import org.apache.spark.sql.DataFrame;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import scala.Tuple2;
-import org.apache.spark.sql.SQLContext;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import static org.apache.spark.sql.functions.concat;
-import static org.apache.spark.sql.functions.lit;
 
 
 public class Main {
 
     public static void main(String[] args){
+
+        int part = Integer.parseInt(args[0]);
+        boolean write = Boolean.parseBoolean(args[1]);
+        int frame = Integer.parseInt(args[2]);
+
+        if(args.length != 3 || part > 4 || part <= 0){
+            System.out.println("Utilisation de l'application :");
+            System.out.println("java -jar BigData.jar [partie : 1|2|3|4] [write : true|false] [frame length]");
+            System.exit(0);
+        }
+
 
         //Create a SparkContext to initialize
         SparkConf conf = new SparkConf().setMaster("local").setAppName("BigData");
@@ -30,16 +26,23 @@ public class Main {
 
         Traitement traitement = new Traitement(sc);
 
-        //Partie I
+        switch(part) {
+            case 1:
+                //Partie I
+                traitement.partie1(write); break;
 
-        //traitement.partie1(false);
+            case 2:
+                //Partie II
+                traitement.partie2(write); break;
 
-        //Partie II
+            case 3:
+                //Partie III
+                traitement.partie3(write); break;
 
-        //traitement.partie2(false);
-
-        //Partie III
-        traitement.partie3(true);
+            case 4:
+                //Partie IV
+                traitement.partie4(write, frame); break;
+        }
     }
 
 }
