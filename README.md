@@ -4,7 +4,7 @@ Projet réalisé par Paul Decanter, Doriane Lecam et Samy Ben Tounes
  
 Le code peut être trouvé sur github : https://github.com/Meurdok/ProjetBigData
 
-Chaque partie du projet possède une fonction dédiée dans la classe Traitement.java
+Chaque partie du projet possède une fonction dédiée dans la classe main.Traitement.java
 
 
 APIs :
@@ -17,16 +17,16 @@ APIs :
             <artifactId>spark-sql_2.11</artifactId>
             <version>1.6.2</version>
 
-##Utilisation de l'application
+## Utilisation de l'application
 
 Pour lancer l'application :
 
-    java -jar BigData.jar [<u>Partie</u> : 1|2|3|4] [<u>Write</u> : true | false] [<u>Frame</u> : {1,100}]
+    java -jar BigData.jar [file] [<u>Partie</u> : 1|2|3|4] [<u>Write</u> : true | false] [<u>Frame</u> : {1,100}]
 
 Partie : Lance le code de la partie choisie  
 Write : Ecrit les fichiers au format json dans le fichier <i>out/</i>   
 Frame : Pour la Partie 4, défini la taille de la fenêtre temporelle  
-##Partie I
+## Partie I
 
 Le RDD peut être trouvé dans le dossier <u>out/Partie1</u>
 
@@ -61,7 +61,7 @@ Les dix accès les plus fréquents:
 (1930,[C538$@DOM1-C539])  
 (1907,[U22@DOM1-C506])
 
-##Partie II
+## Partie II
 
 Les dataframes sont enregistrés dans le dossier <u>out/Partie2</u>
 
@@ -69,10 +69,10 @@ La question 1 correspond aux fichiers <u>Utilisateurs_Connexions_Count</u> et <u
 
 La question 2 correspond aux fichiers <u>Utilisateur_Authentification_Count</u> et <u>Utilisateur_Authentification</u> 
  
-Pour créer le dataframe, on crée une classe <b>LogStruct.java</b> afin d'avoir une structure de donnée.
+Pour créer le dataframe, on crée une classe <b>main.LogStruct.java</b> afin d'avoir une structure de donnée.
 
 ```
- DataFrame df = sqlC.createDataFrame(LogRDD,LogStruct.class);
+ DataFrame df = sqlC.createDataFrame(LogRDD,main.LogStruct.class);
 ```
 
 Pour répondre aux questions 1 et 2, on utilise les fonctions suivantes :
@@ -105,7 +105,7 @@ Pour répondre aux questions 1 et 2, on utilise les fonctions suivantes :
     }
 ```
 
-##Partie III
+## Partie III
 
 Dans cette partie, nous avons volontairement limité le nombre de lignes écrites par fichiers à 10.  
 Les fichiers sont enregistrés dans le dossier <u>out/Partie3</u>  
@@ -139,7 +139,7 @@ On utilise la fonction isC1SupC2(col1,col2) pour savoir
     }
 ```
 
-##Partie IV
+## Partie IV
 
 Dans cette partie, nous avons volontairement limité le nombre de lignes écrites par fichiers à 10.  
 Les fichiers sont enregistrés dans le dossier <u>out/PartieIV</u>  
