@@ -220,13 +220,13 @@ public class Traitement {
                             for (String k : frame.columns()) {
                                 if (k != i & k != j && !k.equals("_1_temps") && IsC1SupC2(k,j)) {
                                     DataFrame ndfc = this.transformationCount(frame, i, j, k);
-
+                                    int sup = bound + ft;
                                     //ndfc = ndfc.join(frame.select("_1_temps",i),i);
 
-                                    if(write==true){this.writeSelectionToFile(ndfc,"Partie4/"+i+"-"+j+"-"+k+"-Count"+"-"+bound+"to"+bound+ft,10);}
+                                    if(write==true){this.writeSelectionToFile(ndfc,"Partie4/"+i+"-"+j+"-"+k+"-Count"+"-"+bound+"to"+sup,10);}
 
                                     DataFrame ndfl = this.transformationList(ndfc,i,j+" - "+k);
-                                    if(write==true){this.writeSelectionToFile(ndfl,"Partie4/"+i+"-"+j+"-"+k+"-List"+"-"+bound+"to"+bound+ft,10);}
+                                    if(write==true){this.writeSelectionToFile(ndfl,"Partie4/"+i+"-"+j+"-"+k+"-List"+"-"+bound+"to"+sup,10);}
 
                                 }
                             }
