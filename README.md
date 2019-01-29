@@ -21,7 +21,7 @@ APIs :
 
 Pour lancer l'application :
 
-    java -jar BigData.jar [file] [<u>Partie</u> : 1|2|3|4] [<u>Write</u> : true | false] [<u>Frame</u> : {1,100}]
+    java -jar BigData.jar [file] [<u>Partie</u> : 1|2|3|4] [<u>Write</u> : 0=False|1=True] [<u>Frame</u> : {1,100}]
 
 Partie : Lance le code de la partie choisie  
 Write : Ecrit les fichiers au format json dans le fichier <i>out/</i>   
