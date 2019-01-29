@@ -26,7 +26,7 @@ public class Traitement {
         textFile = sc.textFile(path);
     }
 
-    public void partie1(boolean write){
+    public void partie1(int write){
 
         System.out.println("--------------");
         System.out.println("Début Partie I");
@@ -50,7 +50,7 @@ public class Traitement {
         System.out.println("-----Top 10 des accès-----");
         top10.forEach(s -> System.out.println(s));
 
-        if(write == true) {
+        if(write == 1) {
             //Supprime le dossier de sortie si il existe deja
             deleteFile("out/Partie1");
             //Output dans le dossier out/Partie1
@@ -62,13 +62,13 @@ public class Traitement {
         System.out.println("--------------");
     }
 
-    public void partie2(boolean write){
+    public void partie2(int write){
 
         System.out.println("--------------");
         System.out.println("Début Partie II");
         System.out.println("--------------");
 
-        if(write){
+        if(write==1){
             deleteFile("/out/Partie2");
         }
 
@@ -101,14 +101,14 @@ public class Traitement {
 
         q1a.show();
 
-        if(write == true) {
+        if(write == 1) {
             this.writeToFile(q1a,"Partie2/Utilisateurs_Connexions_Count");
         }
 
 
         DataFrame q1b = this.transformationList(q1a,"utilisateurs","connexion");
 
-        if(write == true){
+        if(write == 1){
             this.writeToFile(q1b,"Partie2/UtilisateursEtConnexions");
         }
 
@@ -120,13 +120,13 @@ public class Traitement {
         q2a = q2a.withColumnRenamed("_2_userSource","utilisateurs");
         q2a = q2a.withColumnRenamed("_8_OAuth - _9_Status","connexion");
 
-        if(write==true){
+        if(write==1){
             this.writeToFile(q2a,"Partie2/Utilisateur_Authentification_Count");
         }
 
         DataFrame q2b = this.transformationList(q2a,"utilisateurs","connexion");
 
-        if(write == true) {
+        if(write == 1) {
             this.writeToFile(q2b,"Partie2/Utilisateur_Authentification");
         }
 
@@ -136,13 +136,13 @@ public class Traitement {
 
     }
 
-    public void partie3(boolean write){
+    public void partie3(int write){
 
         System.out.println("--------------");
         System.out.println("Début Partie III");
         System.out.println("--------------");
 
-        if(write){
+        if(write==1){
             deleteFile("/out/Partie3");
         }
 
@@ -165,11 +165,11 @@ public class Traitement {
                         for(String k: df.columns()){ //Colonne 3 k
                             if(!k.equals(i) && !k.equals(j) && !k.equals("_1_temps") && IsC1SupC2(k,j)){
                                 DataFrame ndfc = this.transformationCount(df,i,j,k);
-                                if(write==true){this.writeSelectionToFile(ndfc,"Partie3/"+i+"-"+j+"-"+k+"-Count",10);}
+                                if(write==1){this.writeSelectionToFile(ndfc,"Partie3/"+i+"-"+j+"-"+k+"-Count",10);}
 
 
                                 DataFrame ndfl = this.transformationList(ndfc,i,j+" - "+k);
-                                if(write==true){this.writeSelectionToFile(ndfl,"Partie3/"+i+"-"+j+"-"+k+"-List",10);}
+                                if(write==1){this.writeSelectionToFile(ndfl,"Partie3/"+i+"-"+j+"-"+k+"-List",10);}
 
                             }
                         }
@@ -183,13 +183,13 @@ public class Traitement {
 
     }
 
-    public void partie4(boolean write, int ft) {
+    public void partie4(int write, int ft) {
 
         System.out.println("--------------");
         System.out.println("Début Partie VI");
         System.out.println("--------------");
 
-        if(write){
+        if(write==1){
             deleteFile("/out/Partie4");
         }
 
@@ -223,10 +223,10 @@ public class Traitement {
                                     int sup = bound + ft;
                                     //ndfc = ndfc.join(frame.select("_1_temps",i),i);
 
-                                    if(write==true){this.writeSelectionToFile(ndfc,"Partie4/"+i+"-"+j+"-"+k+"-Count"+"-"+bound+"to"+sup,10);}
+                                    if(write==1){this.writeSelectionToFile(ndfc,"Partie4/"+i+"-"+j+"-"+k+"-Count"+"-"+bound+"to"+sup,10);}
 
                                     DataFrame ndfl = this.transformationList(ndfc,i,j+" - "+k);
-                                    if(write==true){this.writeSelectionToFile(ndfl,"Partie4/"+i+"-"+j+"-"+k+"-List"+"-"+bound+"to"+sup,10);}
+                                    if(write==1){this.writeSelectionToFile(ndfl,"Partie4/"+i+"-"+j+"-"+k+"-List"+"-"+bound+"to"+sup,10);}
 
                                 }
                             }
